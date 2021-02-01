@@ -4,6 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { add } from './actions/toast.actions';
 import { Toast } from "./models/toast.model"
+import { selectToastr } from "./selectors/toast.selector"
 
 
 @Component({
@@ -23,7 +24,7 @@ export class AppComponent {
     class: "bg-success text-light",
     autohide: true,
     delay: 10000,
-    message: "This is my success toast, it will disappear in 10 seconds"
+    message: "Success toast, it will disappear in 10 seconds"
   }
 
   warningToast : Toast = {
@@ -31,7 +32,7 @@ export class AppComponent {
     class: "bg-warning text-light",
     autohide: true,
     // delay: 5000,
-    message: "This is my warning toast, it will disappear in 5 seconds (that's the default)"
+    message: "Warning toast, it will disappear in 5 seconds (that's the default)"
   }
 
   errorToast : Toast = {
@@ -39,19 +40,24 @@ export class AppComponent {
     class: "bg-danger text-light",
     autohide: true,
     delay: 3000,
-    message: "This is my danger toast, it will disappear in 3 seconds"
+    message: "Danger toast, it will disappear in 3 seconds"
   }
 
   
   constructor(
-    private store: Store<{ toastr: Toast }>
+    private store: Store<{ toastr: Toast }>,
     ) {
     this.toastr$ = this.store.pipe(select('toastr'));
+    
     console.log(this.toastr$);
   }
   
   showSuccess() {
-    this.store.dispatch(add({toast: this.successToast}));
+
+    // if (!this.wrapped) {
+      this.store.dispatch(add({toast: this.successToast}));
+    // }
+
   }
 
   showWarning() {

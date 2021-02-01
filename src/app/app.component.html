@@ -25,12 +25,12 @@
 
 <router-outlet></router-outlet>
 <!-- <div [class.rounded-border]="this.wrapped"> -->
-  <!-- <span *ngIf="this.wrapped" class="badge badge-primary">hola</span> -->
   <app-toasts 
     [toastr]="toastr$ | async" 
     (grouped)="wrappingToastr($event)"
-    [ngClass]="{'shadow-lg p-3 mb-5 bg-white rounded': this.wrapped}"
+    
   >
   </app-toasts>
+  <!-- [ngClass]="{'shadow-lg p-3 mb-5 bg-white rounded': this.wrapped}" -->
   <!-- [style.content]="this.wrapped ? 'Hi' : 'auto' "> -->
 <!-- </div> -->

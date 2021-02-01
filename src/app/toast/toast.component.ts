@@ -4,7 +4,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-toasts',
   template: `
-  <h5 *ngIf='this.counter>=5'>Toast: <span class="badge badge-primary">{{this.counter}}</span></h5>
+    
     <ngb-toast
       *ngFor="let toast of toastr"
       [header]="toast.header"
@@ -14,8 +14,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
       (shown)="toastrCounter(1)"
       (hidden)="toastrCounter(-1)"
     >
-      {{ toast.message }}
+        {{ toast.message }}
     </ngb-toast>
+    
+    <h5 *ngIf='this.counter>5'>Toast: <span class="badge badge-primary">Hidden Notifications: {{ (this.counter - 5) }}</span></h5>
   `,
   host: {'[class.ngb-toasts]': 'true'}
 })
