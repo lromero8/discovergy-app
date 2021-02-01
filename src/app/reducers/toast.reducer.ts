@@ -15,7 +15,15 @@ import { Toast } from "../models/toast.model"
 
 // export interface ItemState{ ReadonlyArray<Toast>}
 
-export const initialState: ReadonlyArray<Toast> = [];
+export const initialState: ReadonlyArray<Toast> = [
+    // {
+    //     header: "Toast",
+    //     class: "bg-success text-light",
+    //     autohide: true,
+    //     delay: 2000,
+    //     message: "This is my first toast"
+    // }
+];
 
 // const initialState: ItemState = {
 //     list: [],

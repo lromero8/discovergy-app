@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, DoBootstrap } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -16,25 +16,55 @@ export class AppComponent {
 
   toastr$: Observable<Toast>;
 
+  wrapped = false;
 
-  toast : Toast = { 
-    id: "",
-    heading: "Toast",
-    subheading: "Success",
-    message: "This is my first toast",
-    timeout: 2000,
-    position: "top-right"
+  successToast : Toast = {
+    header: "Toast",
+    class: "bg-success text-light",
+    autohide: true,
+    delay: 10000,
+    message: "This is my success toast, it will disappear in 10 seconds"
   }
 
+  warningToast : Toast = {
+    header: "Toast",
+    class: "bg-warning text-light",
+    autohide: true,
+    // delay: 5000,
+    message: "This is my warning toast, it will disappear in 5 seconds (that's the default)"
+  }
+
+  errorToast : Toast = {
+    header: "Toast",
+    class: "bg-danger text-light",
+    autohide: true,
+    delay: 3000,
+    message: "This is my danger toast, it will disappear in 3 seconds"
+  }
+
+  
   constructor(
     private store: Store<{ toastr: Toast }>
-  ) {
-    this.toastr$ = store.pipe(select('toastr'));
+    ) {
+    this.toastr$ = this.store.pipe(select('toastr'));
+    console.log(this.toastr$);
   }
   
-  showStandard() {
-    this.store.dispatch(add({toast: this.toast}));
-    console.log(this.toastr$)
+  showSuccess() {
+    this.store.dispatch(add({toast: this.successToast}));
+  }
+
+  showWarning() {
+    this.store.dispatch(add({toast: this.warningToast}));
+  }
+
+  showError() {
+    this.store.dispatch(add({toast: this.errorToast}));
+  }
+
+  wrappingToastr(value: boolean){
+    value?this.wrapped = true: this.wrapped = false;
+    // console.log(value)
   }
 
   // showStandard() {

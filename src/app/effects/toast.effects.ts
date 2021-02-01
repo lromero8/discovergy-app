@@ -16,10 +16,10 @@ export class ToastEffects {
             ofType(displaySuccess),
             tap(action => {
                 this.toastService.show(action.message, {
-                    classname: 'bg-success text-light',
-                    delay: action.timeout,
-                    autohide: true,
-                    headertext: action.heading
+                    classname: action.class,
+                    delay: action.delay,
+                    autohide: action.autohide,
+                    headertext: action.header
                   });
             })
         ),
@@ -64,11 +64,11 @@ export class ToastEffects {
             ofType(add),
             map(action =>
               displaySuccess({
-                heading: action.toast.heading,
-                subheading: action.toast.subheading,
-                message: action.toast.message,
-                timeout: action.toast.timeout,
-                position: action.toast.position
+                header: action.toast.header,
+                class: action.toast.class,
+                autohide: action.toast.autohide,
+                delay: action.toast.delay,
+                message: action.toast.message
               })
             )
         )

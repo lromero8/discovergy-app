@@ -1,8 +1,8 @@
 export interface Toast {
     id?: string;
-    heading: string;
-    subheading: string;
+    header: string;
+    class: string;
+    autohide: boolean;
+    delay?: number;
     message: string;
-    timeout: number;
-    position: string;
 }

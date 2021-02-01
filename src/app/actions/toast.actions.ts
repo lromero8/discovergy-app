@@ -13,7 +13,7 @@ export const add = createAction(
 
 export const displaySuccess = createAction(
     "[Toastr Notification] Display Success",
-    props<{ heading: string, subheading: string, message: string, timeout: number, position: string}>()
+    props<{ header: string, class: string, autohide: boolean, delay?: number, message: string}>()
 );
 
 // export const displayWarning = createAction(

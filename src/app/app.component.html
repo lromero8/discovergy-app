@@ -7,17 +7,11 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<button class="btn btn-primary" (click)="showStandard()" ngbTooltip="Will disappear in 5s">Standard toast</button>&nbsp;
-<!-- <button class="btn btn-success" (click)="showSuccess()" ngbTooltip="Will disappear in 10s">Success toast</button>&nbsp; -->
-<!-- <button class="btn btn-danger" (click)="showError()" ngbTooltip="Will disappear in 10s">Error toast</button>&nbsp; -->
-<!-- {{this.toastr$ | async }} -->
-<ng-template #customTpl>
-  <i>This is</i> a <u>custome</u> template <b>toast message</b>
-</ng-template>
+<button class="btn btn-success" (click)="showSuccess()" ngbTooltip="Will disappear in 10s">Success toast</button>&nbsp;
+<button class="btn btn-warning" (click)="showWarning()" ngbTooltip="Will disappear in 5s">Warning toast</button>&nbsp;
+<button class="btn btn-danger" (click)="showError()" ngbTooltip="Will disappear in 3s">Error toast</button>&nbsp;
 
-<!-- <button class="btn btn-info" (click)="showCustomToast(customTpl)" ngbTooltip="Will disappear in 15s">Custom toast</button>&nbsp; -->
-
-<router-outlet></router-outlet>
+<p>{{ ( this.toastr$ | async) | json }}</p>
 
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -30,4 +24,13 @@
 
 
 <router-outlet></router-outlet>
-<app-toasts></app-toasts>
+<!-- <div [class.rounded-border]="this.wrapped"> -->
+  <!-- <span *ngIf="this.wrapped" class="badge badge-primary">hola</span> -->
+  <app-toasts 
+    [toastr]="toastr$ | async" 
+    (grouped)="wrappingToastr($event)"
+    [ngClass]="{'shadow-lg p-3 mb-5 bg-white rounded': this.wrapped}"
+  >
+  </app-toasts>
+  <!-- [style.content]="this.wrapped ? 'Hi' : 'auto' "> -->
+<!-- </div> -->

@@ -1,29 +1,42 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
-import { ToastService } from './../services/toast.service';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 
 @Component({
   selector: 'app-toasts',
   template: `
+  <h5 *ngIf='this.counter>=5'>Toast: <span class="badge badge-primary">{{this.counter}}</span></h5>
     <ngb-toast
-      *ngFor="let toast of toastService.toasts"
-      [header]="toast.headertext"
-      [class]="toast.classname"
+      *ngFor="let toast of toastr"
+      [header]="toast.header"
+      [class]="toast.class"
       [autohide]="toast.autohide"
       [delay]="toast.delay || 5000"
-      (hide)="toastService.remove(toast)"
+      (shown)="toastrCounter(1)"
+      (hidden)="toastrCounter(-1)"
     >
-      <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
-        <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
-      </ng-template>
-
-      <ng-template #text>{{ toast.textOrTpl }}</ng-template>
+      {{ toast.message }}
     </ngb-toast>
   `,
   host: {'[class.ngb-toasts]': 'true'}
 })
 export class ToastComponent {
-  constructor(public toastService: ToastService) {}
+  @Input() toastr!: any;
+  @Output() grouped = new EventEmitter<boolean>();
+  counter : number = 0;
 
-  isTemplate(toast : any) { return toast.textOrTpl instanceof TemplateRef; }
+
+  toastrCounter(num: number){
+    num == 1?this.counter++:this.counter--;
+
+    this.counter>=5?this.groupToastr(true):this.groupToastr(false);
+
+    console.log(this.counter)
+  }
+
+
+  groupToastr(value: boolean) {
+    this.grouped.emit(value);
+  }
+
+
 }
