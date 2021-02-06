@@ -2,9 +2,11 @@ import { Component, DoBootstrap } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { add } from './actions/toast.actions';
+import { add, displaySuccess } from './actions/toast.actions';
 import { Toast } from "./models/toast.model"
-import { selectToastr } from "./selectors/toast.selector"
+import { ToastrService } from 'ngx-toastr';
+import { ToastComponent } from './toast/toast.component';
+
 
 
 @Component({
@@ -19,33 +21,37 @@ export class AppComponent {
 
   wrapped = false;
 
+  id = 0;
+
   successToast : Toast = {
-    header: "Toast",
-    class: "bg-success text-light",
-    autohide: true,
-    delay: 10000,
-    message: "Success toast, it will disappear in 10 seconds"
+    id: 0,
+    type: "success",
+    title: "Success!",
+    message: "Success toast, it will disappear in 3 seconds <h5>hello<h5>",
+    timeout: 3000,
+    position: "toast-top-right"
   }
 
-  warningToast : Toast = {
-    header: "Toast",
-    class: "bg-warning text-light",
-    autohide: true,
-    // delay: 5000,
-    message: "Warning toast, it will disappear in 5 seconds (that's the default)"
-  }
+  // warningToast : Toast = {
+  //   header: "Toast",
+  //   class: "bg-warning text-light",
+  //   autohide: true,
+  //   // delay: 5000,
+  //   message: "Warning toast, it will disappear in 5 seconds (that's the default)"
+  // }
 
-  errorToast : Toast = {
-    header: "Toast",
-    class: "bg-danger text-light",
-    autohide: true,
-    delay: 3000,
-    message: "Danger toast, it will disappear in 3 seconds"
-  }
+  // errorToast : Toast = {
+  //   header: "Toast",
+  //   class: "bg-danger text-light",
+  //   autohide: true,
+  //   delay: 3000,
+  //   message: "Danger toast, it will disappear in 3 seconds"
+  // }
 
   
   constructor(
     private store: Store<{ toastr: Toast }>,
+    private toastr: ToastrService
     ) {
     this.toastr$ = this.store.pipe(select('toastr'));
     
@@ -54,19 +60,38 @@ export class AppComponent {
   
   showSuccess() {
 
-    // if (!this.wrapped) {
-      this.store.dispatch(add({toast: this.successToast}));
-    // }
+    if (!this.wrapped) {
+
+      this.successToast.id = this.id+=1;
+      // console.log(this.successToast)
+      // this.successToast.id = this.id++;
+      this.store.dispatch(displaySuccess({ toast: this.successToast }));
+      // this.store.dispatch(add({toast: this.successToast}));
+
+      this.successToast = {
+        id: '',
+        type: "success",
+        title: "Success!",
+        message: "Success toast, it will disappear in 3 seconds <h5>hello<h5>",
+        timeout: 3000,
+        position: "toast-top-right"
+      };
+
+    }
+    // this.toastr.success('Hello world!', 'Toastr fun!', {
+    //   // toastComponent: ToastComponent
+    // });
+
 
   }
 
-  showWarning() {
-    this.store.dispatch(add({toast: this.warningToast}));
-  }
+  // showWarning() {
+  //   this.store.dispatch(add({toast: this.warningToast}));
+  // }
 
-  showError() {
-    this.store.dispatch(add({toast: this.errorToast}));
-  }
+  // showError() {
+  //   this.store.dispatch(add({toast: this.errorToast}));
+  // }
 
   wrappingToastr(value: boolean){
     value?this.wrapped = true: this.wrapped = false;

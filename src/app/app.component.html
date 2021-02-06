@@ -8,8 +8,8 @@
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
 <button class="btn btn-success" (click)="showSuccess()" ngbTooltip="Will disappear in 10s">Success toast</button>&nbsp;
-<button class="btn btn-warning" (click)="showWarning()" ngbTooltip="Will disappear in 5s">Warning toast</button>&nbsp;
-<button class="btn btn-danger" (click)="showError()" ngbTooltip="Will disappear in 3s">Error toast</button>&nbsp;
+<!-- <button class="btn btn-warning" (click)="showWarning()" ngbTooltip="Will disappear in 5s">Warning toast</button>&nbsp; -->
+<!-- <button class="btn btn-danger" (click)="showError()" ngbTooltip="Will disappear in 3s">Error toast</button>&nbsp; -->
 
 <p>{{ ( this.toastr$ | async) | json }}</p>
 
@@ -25,12 +25,13 @@
 
 <router-outlet></router-outlet>
 <!-- <div [class.rounded-border]="this.wrapped"> -->
-  <app-toasts 
+  <!-- <app-toasts 
     [toastr]="toastr$ | async" 
     (grouped)="wrappingToastr($event)"
     
   >
-  </app-toasts>
+  </app-toasts> -->
+  <app-toasts></app-toasts>
   <!-- [ngClass]="{'shadow-lg p-3 mb-5 bg-white rounded': this.wrapped}" -->
   <!-- [style.content]="this.wrapped ? 'Hi' : 'auto' "> -->
 <!-- </div> -->

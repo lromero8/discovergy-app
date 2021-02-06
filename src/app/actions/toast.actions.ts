@@ -6,16 +6,20 @@ export const add = createAction(
     props<{ toast : Toast }>()
 );
 
-// export const remove = createAction(
-//     "[ Remove Toastr] Remove",
-//     props<{ heading: string, subheading: string, message: string, timeout: number, position: string}>()
-// );
+export const remove = createAction(
+    "[ Remove Toastr] Remove",
+    props<{ toastId: number}>()
+);
 
 export const displaySuccess = createAction(
     "[Toastr Notification] Display Success",
-    props<{ header: string, class: string, autohide: boolean, delay?: number, message: string}>()
+    props<{ toast : Toast }>()
 );
 
+export const displayInfo = createAction(
+    "[Toastr Notification] Display Info",
+    props<{ toast : Toast }>()
+);
 // export const displayWarning = createAction(
 //     "[Toastr Notification] Display Warning",
 //     props<{ heading: string, subheading: string, message: string, timeout: number, position: string}>()

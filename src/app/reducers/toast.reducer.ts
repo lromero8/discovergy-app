@@ -1,5 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { add} from '../actions/toast.actions';
+import { add, remove, displaySuccess} from '../actions/toast.actions';
 import { Toast } from "../models/toast.model"
 
 // export interface ItemState {
@@ -48,7 +48,11 @@ export const initialState: ReadonlyArray<Toast> = [
 
 export const toastReducer = createReducer(
     initialState,
-    on(add, (state, { toast }) => [...state, toast])
+    on(add, (state, { toast }) => [...state, toast]),
+    on(remove, (state, { toastId }) => state.filter(item => item.id !== toastId)),
+    on(displaySuccess, (state, { toast }) => [...state, toast])
+    // on(displaySuccess, state => state)
+
     // on(add, state => ({...state, list: state.list, type: state.type, heading: state.heading, subheading: state.subheading, message: state.message, timeout: state.timeout, position: state.position})),
     // on(add, (state, { ToastItem }) => [...state, ToastItem] )
 );
