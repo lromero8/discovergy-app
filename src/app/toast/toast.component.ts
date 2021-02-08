@@ -4,38 +4,41 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'app-toasts',
   template: `
-  <h5 *ngIf='this.counter>=5'>Toast: <span class="badge badge-primary">{{this.counter}}</span></h5>
-    <ngb-toast
-      *ngFor="let toast of toastr"
-      [header]="toast.header"
-      [class]="toast.class"
-      [autohide]="toast.autohide"
-      [delay]="toast.delay || 5000"
-      (shown)="toastrCounter(1)"
-      (hidden)="toastrCounter(-1)"
+  <ngb-toast
+    *ngFor="let toast of toastr"
+    [header]="toast.header"
+    [class]="toast.class"
+    [autohide]="toast.autohide"
+    [delay]="toast.delay || 5000"
+    (shown)="toastrCounter(1)"
+    (hidden)="toastrCounter(-1)"
     >
-      {{ toast.message }}
-    </ngb-toast>
+    {{ toast.message }}
+  </ngb-toast>
+  <div *ngIf='this.queque>0' class="alert alert-primary">
+    Grouped Notifications: <span class="badge bg-primary text-white">{{ this.queque }}</span>
+  </div>
   `,
   host: {'[class.ngb-toasts]': 'true'}
 })
+
 export class ToastComponent {
   @Input() toastr!: any;
-  @Output() grouped = new EventEmitter<boolean>();
-  counter : number = 0;
+  @Input() queque!: number;
+  @Output() counter = new EventEmitter<number>();
+  tempCounter : number = 0;
 
 
   toastrCounter(num: number){
-    num == 1?this.counter++:this.counter--;
+    num == 1?this.tempCounter++:this.tempCounter--;
 
-    this.counter>=5?this.groupToastr(true):this.groupToastr(false);
+    this.groupToastr(this.tempCounter)
 
-    console.log(this.counter)
+    // console.log(this.tempCounter)
   }
 
-
-  groupToastr(value: boolean) {
-    this.grouped.emit(value);
+  groupToastr(value: number) {
+    this.counter.emit(value);
   }
 
 

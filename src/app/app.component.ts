@@ -2,7 +2,7 @@ import { Component, DoBootstrap } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { add } from './actions/toast.actions';
+import { displayToast } from './actions/toast.actions';
 import { Toast } from "./models/toast.model"
 
 
@@ -16,7 +16,11 @@ export class AppComponent {
 
   toastr$: Observable<Toast>;
 
-  wrapped = false;
+  counter = 0;
+
+  queue:any = [];
+
+  maxOpened: number = 3;
 
   successToast : Toast = {
     header: "Toast",
@@ -47,59 +51,44 @@ export class AppComponent {
     private store: Store<{ toastr: Toast }>
     ) {
     this.toastr$ = this.store.pipe(select('toastr'));
-    console.log(this.toastr$);
+    // console.log(this.toastr$);
   }
   
   showSuccess() {
-    this.store.dispatch(add({toast: this.successToast}));
+    if (this.counter >= this.maxOpened) {
+      this.queue.push(this.successToast)
+      // console.log("queue array: ", this.queue.length);
+    } else {
+      this.store.dispatch(displayToast({toast: this.successToast}));
+    }
   }
 
   showWarning() {
-    this.store.dispatch(add({toast: this.warningToast}));
+    if (this.counter >= this.maxOpened) {
+      this.queue.push(this.warningToast)
+      // console.log("queue array: ", this.queue.length);
+    } else {
+      this.store.dispatch(displayToast({toast: this.warningToast}));
+    }
   }
 
   showError() {
-    this.store.dispatch(add({toast: this.errorToast}));
+    if (this.counter >= this.maxOpened) {
+      this.queue.push(this.errorToast)
+      // console.log("queue array: ", this.queue.length);
+    } else {
+      this.store.dispatch(displayToast({toast: this.errorToast}));
+    }
   }
 
-  wrappingToastr(value: boolean){
-    value?this.wrapped = true: this.wrapped = false;
-    // console.log(value)
+  wrappingToastr(value: number){
+    this.counter = value;
+    console.log(this.toastr$);
+
+    if (this.counter == (this.maxOpened - 1) && this.queue.length!=0) {
+      this.store.dispatch(displayToast({toast: this.queue.shift()}))
+      console.log("Queue: ", this.queue.length)
+    }
   }
-
-  // showStandard() {
-  //   this.toastService.show('I am a standard toast', {
-  //     delay: 2000,
-  //     autohide: true
-  //   });
-  // }
-
-  // showSuccess() {
-  //   this.toastService.show('I am a success toast', {
-  //     classname: 'bg-success text-light',
-  //     delay: 2000 ,
-  //     autohide: true,
-  //     headertext: 'Toast Header'
-  //   });
-  // }
-
-
-  // showError() {
-  //   this.toastService.show('I am a success toast', {
-  //     classname: 'bg-danger text-light',
-  //     delay: 2000 ,
-  //     autohide: true,
-  //     headertext: 'Error!!!'
-  //   });
-  // }
-
-  // showCustomToast(customTpl: any) {
-  //   this.toastService.show(customTpl, {
-  //     classname: 'bg-info text-light',
-  //     delay: 3000,
-  //     autohide: true
-  //   });
-  // }
-
 
 }

@@ -7,11 +7,7 @@
 <!-- * * * * * * * to get started with your project! * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
-<button class="btn btn-success" (click)="showSuccess()" ngbTooltip="Will disappear in 10s">Success toast</button>&nbsp;
-<button class="btn btn-warning" (click)="showWarning()" ngbTooltip="Will disappear in 5s">Warning toast</button>&nbsp;
-<button class="btn btn-danger" (click)="showError()" ngbTooltip="Will disappear in 3s">Error toast</button>&nbsp;
 
-<p>{{ ( this.toastr$ | async) | json }}</p>
 
 
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
@@ -22,15 +18,20 @@
 <!-- * * * * * * * * * * End of Placeholder * * * * * * * * * * * -->
 <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * -->
 
+<!-- <p>{{ ( this.toastr$ | async) | json }}</p> -->
 
 <router-outlet></router-outlet>
-<!-- <div [class.rounded-border]="this.wrapped"> -->
-  <!-- <span *ngIf="this.wrapped" class="badge badge-primary">hola</span> -->
-  <app-toasts 
-    [toastr]="toastr$ | async" 
-    (grouped)="wrappingToastr($event)"
-    [ngClass]="{'shadow-lg p-3 mb-5 bg-white rounded': this.wrapped}"
-  >
-  </app-toasts>
-  <!-- [style.content]="this.wrapped ? 'Hi' : 'auto' "> -->
-<!-- </div> -->
+
+<div class="" style="position: absolute;top: 50%;left: 50%; transform: translate(-50%, -50%);">
+  <h4 class="text-white">Angular NGRX Toast Component</h4><br>
+  <button class="btn btn-outline-success" (click)="showSuccess()" ngbTooltip="Will disappear in 10s">Success toast</button>&nbsp;
+  <button class="btn btn-outline-warning" (click)="showWarning()" ngbTooltip="Will disappear in 5s">Warning toast</button>&nbsp;
+  <button class="btn btn-outline-danger" (click)="showError()" ngbTooltip="Will disappear in 3s">Error toast</button>&nbsp;
+</div>
+
+<app-toasts 
+  [toastr]="toastr$ | async"
+  [queque]="this.queue.length"
+  (counter)="wrappingToastr($event)"
+>
+</app-toasts>
